@@ -1,0 +1,104 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>DrumJS</title>
+	<meta name="description" content="Play Drum sounds on Javascript App">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="public/styles/styles.css">
+</head>
+<body>
+	<div class="wrapper">
+		<div class="key" data-key="81">
+			<kbd>Q</kbd>
+			<span class="sound">openhat</span>
+		</div>
+		<div class="key" data-key="87">
+			<kbd>W</kbd>
+			<span class="sound">boom</span>
+		</div>
+		<div class="key" data-key="69">
+			<kbd>E</kbd>
+			<span class="sound">ride</span>
+		</div>
+		<div class="key" data-key="65">
+			<kbd>A</kbd>
+			<span class="sound">clap</span>
+		</div>
+		<div class="key" data-key="83">
+			<kbd>S</kbd>
+			<span class="sound">hithatk</span>
+		</div>
+		<div class="key" data-key="68">
+			<kbd>D</kbd>
+			<span class="sound">kick</span>
+		</div>
+		
+		<div class="key" data-key="90">
+			<kbd>Z</kbd>
+			<span class="sound">snare</span>
+		</div>
+		<div class="key" data-key="88">
+			<kbd>X</kbd>
+			<span class="sound">tom</span>
+		</div>
+		<div class="key" data-key="67">
+			<kbd>C</kbd>
+			<span class="sound">tink</span>
+		</div>
+	</div>
+
+	<div class="audio-comp">
+		<audio data-key="65" src="public/media/clap.wav"></audio>
+		<audio data-key="83" src="public/media/hihat.wav"></audio>
+		<audio data-key="68" src="public/media/kick.wav"></audio>
+		<audio data-key="81" src="public/media/openhat.wav"></audio>
+		<audio data-key="87" src="public/media/boom.wav"></audio>
+		<audio data-key="69" src="public/media/ride.wav"></audio>
+		<audio data-key="90" src="public/media/snare.wav"></audio>
+		<audio data-key="88" src="public/media/tom.wav"></audio>
+		<audio data-key="67" src="public/media/tink.wav"></audio>
+	</div>
+</body>
+
+<script>		
+	function playDrum(evt){
+		let keycode = evt.keyCode;
+		if (evt.target.classList[0] === 'key'){			
+			keycode = evt.target.attributes['data-key'].nodeValue;
+		}
+		const keyDiv = document.querySelector(`div[data-key="${keycode}"]`);
+		if (!keyDiv) {			
+			console.log('Key press does not match any element');
+			return(new Error('Key press does not match any element'));
+		};
+		
+		keyDiv.classList.add('playing');
+		const audioElm = document.querySelector(`audio[data-key="${keycode}"]`);
+		audioElm.currentTime = 0;
+		audioElm.play();	
+	}
+
+	function removeClass(evt,elm,clss){		
+		if ((evt.type !== 'mouseleave') && (evt.propertyName !== 'transform')) return;
+		elm.classList.remove(clss);
+	};
+
+	const keys = Array.from(document.querySelectorAll('.key'));
+	keys.forEach(function(key){
+		key.addEventListener('transitionend', function(evt){
+			removeClass(evt,key,'playing');
+		});
+		key.addEventListener('click', function(evt){
+			playDrum(evt);
+		});
+		key.addEventListener('mouseleave', function(evt){
+			removeClass(evt,key,'playing');
+		});
+	});
+
+	window.addEventListener("keyup", playDrum);
+
+</script>
+</html>

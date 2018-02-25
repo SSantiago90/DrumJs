@@ -1,0 +1,19 @@
+{
+  "name": "drumjs",
+  "version": "1.0.0",
+  "description": "Drum keys minigame",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "drum",
+    "javascript",
+    "game"
+  ],
+  "author": "Salkin Santiago",
+  "license": "MIT",
+  "dependencies": {
+    "html5-boilerplate": "^6.0.1"
+  }
+}
